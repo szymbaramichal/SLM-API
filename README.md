@@ -8,7 +8,7 @@ For every single student whose life is quiet busy. As mentioned above, goal of t
 
  
 
-##Application goals
+## Application goals
 
 Possibility to log in with Facebook and by standard credentials method (mail and password) on mobile devices (as mobile app) and on desktops  
 
