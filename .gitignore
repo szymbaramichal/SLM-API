@@ -1,0 +1,8 @@
+src/obj
+src/bin
+src/.vs
+obj
+bin
+.vs
+src/Services/Todo//Todo.API/bin
+src/Services/Todo/Todo.APi/obj
