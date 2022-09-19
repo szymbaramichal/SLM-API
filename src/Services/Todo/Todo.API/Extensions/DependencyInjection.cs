@@ -1,4 +1,5 @@
-﻿using Todo.API.Data;
+﻿using FluentValidation.AspNetCore;
+using Todo.API.Data;
 using Todo.API.Repositories;
 using Todo.API.Repositories.Interfaces;
 
@@ -11,6 +12,7 @@ public static class DependencyInjection
         services.AddScoped<ITodoContext, TodoContext>();
         services.AddScoped<ITodoRepository, TodoRepository>();
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+        services.AddFluentValidationAutoValidation();
 
         return services;
     }
