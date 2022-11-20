@@ -66,11 +66,15 @@ public class TodosController : ControllerBase
 
     [HttpPut]
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
-    public async Task<ActionResult<bool>> UpdateTodo(TodoDto todoDto)
+    public async Task<IActionResult> UpdateTodo(TodoDto todoDto)
     {
-        var updatedEntity = await repository.UpdateTodo(mapper.Map<TodoEntity>(todoDto));
+        var todoEntity = await repository.GetTodo(todoDto.Id);
 
-        return updatedEntity;
+        var isUpdatedCorrectly = await repository.UpdateTodo(mapper.Map(todoDto, todoEntity));
+
+        if(!isUpdatedCorrectly) return NotFound(ResourceString.NotFoundById);
+
+        return Ok();
     }
 
     [HttpDelete]
