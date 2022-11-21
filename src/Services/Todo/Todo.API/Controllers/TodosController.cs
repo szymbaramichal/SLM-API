@@ -1,10 +1,4 @@
-﻿/////////////////////////////////
-//FileName: TodosController.cs
-//FileType: Visual C# Source file
-//Author : szymbaramichal
-/////////////////////////////////
-
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Todo.API.Dtos;
@@ -15,9 +9,6 @@ using Todo.API.Resources;
 
 namespace Todo.API.Controllers;
 
-/// <summary>
-/// Controller that handles operations on todos.
-/// </summary>
 [Route("api/[controller]")]
 [ApiController]
 public class TodosController : ControllerBase
