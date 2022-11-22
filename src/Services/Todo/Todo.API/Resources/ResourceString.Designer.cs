@@ -61,6 +61,15 @@ namespace Todo.API.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Something went wrong..
+        /// </summary>
+        public static string BadRequest {
+            get {
+                return ResourceManager.GetString("BadRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Not found any todos for given time period..
         /// </summary>
         public static string NotFoundByDate {

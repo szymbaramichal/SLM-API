@@ -5,7 +5,7 @@ namespace Todo.API.Repositories.Interfaces;
 
 public interface ITodoRepository
 {
-    Task<ICollection<TodoEntity>> GetTodos(Expression<Func<TodoEntity, bool>> exp);
+    Task<ICollection<TodoEntity>> GetTodosForTimestamp(DateTime sinceDate, DateTime dueDate);
 
     Task<TodoEntity> GetTodo(string id);
 

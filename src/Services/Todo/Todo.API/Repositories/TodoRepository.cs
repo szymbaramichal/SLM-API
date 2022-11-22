@@ -1,6 +1,5 @@
 ﻿using MongoDB.Driver;
 using MongoDB.Driver.Linq;
-using System.Linq.Expressions;
 using Todo.API.Data;
 using Todo.API.Entities;
 using Todo.API.Repositories.Interfaces;
@@ -16,45 +15,47 @@ public class TodoRepository : ITodoRepository
         this.context = context;
     }
 
-    /// <inheritdoc/>
     public async Task<TodoEntity> CreateTodo(TodoEntity todoEntity)
     {
-        if (todoEntity is null)
-        {
-            throw new ArgumentNullException(nameof(todoEntity));
-        }
+        NullCheck(todoEntity);
 
         await context.Todos.InsertOneAsync(todoEntity);
 
         return todoEntity;
     }
 
-    /// <inheritdoc/>
     public async Task<bool> DeleteTodo(string id)
     {
-        FilterDefinition<TodoEntity> filter = Builders<TodoEntity>.Filter.Eq(x => x.Id, id);
+        var filter = Builders<TodoEntity>.Filter.Eq(todo => todo.Id, id);
         var result = await context.Todos.DeleteOneAsync(filter);
 
         return result.IsAcknowledged && result.DeletedCount > 0;
     }
 
-    /// <inheritdoc/>
     public async Task<TodoEntity> GetTodo(string id)
     {
-        return await context.Todos.Find(x => x.Id == id).FirstOrDefaultAsync();
+        return await context.Todos.Find(todo => todo.Id == id).FirstOrDefaultAsync();
     }
 
-    /// <inheritdoc/>
-    public async Task<ICollection<TodoEntity>> GetTodos(Expression<Func<TodoEntity, bool>> exp)
+    public async Task<ICollection<TodoEntity>> GetTodosForTimestamp(DateTime sinceDate, DateTime dueDate)
     {
-        IMongoQueryable<TodoEntity> results = context.Todos.AsQueryable().Where(exp);
+        IMongoQueryable<TodoEntity> results = context.Todos.AsQueryable().Where(todo => todo.CreationDate >= sinceDate && todo.EndDate <= dueDate);
         return await results.ToListAsync();
     }
 
-    /// <inheritdoc/>
-    public async Task<bool> UpdateTodo(TodoEntity todoEntity)
+    public async Task<bool> UpdateTodo(TodoEntity todoEntity) 
     {
-        var result = await context.Todos.ReplaceOneAsync(filter: p => p.Id == todoEntity.Id, replacement: todoEntity);
+        NullCheck(todoEntity);
+
+        var result = await context.Todos.ReplaceOneAsync(filter: todo => todo.Id == todoEntity.Id, replacement: todoEntity);
         return result.IsAcknowledged && result.ModifiedCount > 0;
+    }
+
+    private static void NullCheck(object obj)
+    {
+        if (obj is null)
+        {
+            throw new ArgumentNullException(nameof(obj));
+        }
     }
 }
