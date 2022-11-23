@@ -1,10 +1,4 @@
-﻿/////////////////////////////////
-//FileName: TodosController.cs
-//FileType: Visual C# Source file
-//Author : szymbaramichal
-/////////////////////////////////
-
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Todo.API.Dtos;
@@ -15,9 +9,6 @@ using Todo.API.Resources;
 
 namespace Todo.API.Controllers;
 
-/// <summary>
-/// Controller that handles operations on todos.
-/// </summary>
 [Route("api/[controller]")]
 [ApiController]
 public class TodosController : ControllerBase
@@ -37,7 +28,9 @@ public class TodosController : ControllerBase
     {
         var todoEntity = await repository.CreateTodo(mapper.Map<TodoEntity>(createTodoDto));
 
-        return Ok(mapper.Map<TodoDto>(todoEntity));
+        var todoDto = mapper.Map<TodoDto>(todoEntity);
+
+        return Ok(todoDto);
     }
 
     [HttpGet("{id:length(24)}")]
@@ -49,36 +42,48 @@ public class TodosController : ControllerBase
 
         if(todoEntity is null) return NotFound(ResourceString.NotFoundById);
 
-        return mapper.Map<TodoDto>(todoEntity);
+        var todoDto = mapper.Map<TodoDto>(todoEntity);
+
+        return Ok(todoDto);
     }
 
     [HttpGet]
     [ProducesResponseType(typeof(TodoDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    public async Task<ActionResult<ICollection<TodoDto>>> ListTodosForTimestamp([FromQuery] ListTodosForTimestampDto getTodoSinceDateDto)
+    public async Task<ActionResult<ICollection<TodoDto>>> ListTodosForTimestamp([FromQuery] ListTodosForTimestampDto listTodosForTimestampDto)
     {
-        var todoEntity = await repository.GetTodos(x => x.EndDate >= getTodoSinceDateDto.SinceDate && x.EndDate <= getTodoSinceDateDto.DueDate);
+        var todoEntity = await repository.GetTodosForTimestamp(listTodosForTimestampDto.SinceDate, listTodosForTimestampDto.DueDate);
 
         if (!todoEntity.Any()) return NotFound(ResourceString.NotFoundByDate);
 
-        return mapper.Map<List<TodoDto>>(todoEntity);
+        var todoDto = mapper.Map<List<TodoDto>>(todoEntity);
+
+        return Ok(todoDto);
     }
 
     [HttpPut]
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
-    public async Task<ActionResult<bool>> UpdateTodo(TodoDto todoDto)
+    public async Task<IActionResult> UpdateTodo(TodoDto todoDto)
     {
-        var updatedEntity = await repository.UpdateTodo(mapper.Map<TodoEntity>(todoDto));
+        var todoEntity = await repository.GetTodo(todoDto.Id);
 
-        return updatedEntity;
+        if(todoEntity is null) return NotFound(ResourceString.NotFoundById);
+
+        var isUpdatedCorrectly = await repository.UpdateTodo(mapper.Map(todoDto, todoEntity));
+
+        if (isUpdatedCorrectly) return Ok();
+
+        return BadRequest(ResourceString.BadRequest);
     }
 
     [HttpDelete]
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     public async Task<ActionResult<bool>> DeleteTodo(TodoDto todoDto)
     {
-        var updatedEntity = await repository.DeleteTodo(todoDto.Id);
+        var isDeletedCorrectly = await repository.DeleteTodo(todoDto.Id);
 
-        return updatedEntity;
+        if (!isDeletedCorrectly) return NotFound(ResourceString.NotFoundById);
+
+        return Ok();
     }
 }

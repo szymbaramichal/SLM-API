@@ -5,4 +5,5 @@ obj
 bin
 .vs
 src/Services/Todo//Todo.API/bin
-src/Services/Todo/Todo.APi/obj
+src/Services/Todo/Todo.API/obj
+src/Services/Todo/Todo.UnitTests/TestResults/

@@ -26,7 +26,10 @@ public static class TodoContextSeed
                     Title = "",
                     EndDate = DateTime.MaxValue,
                     TodoType = TodoType.Important,
-                    UserId = ""
+                    UserId = "",
+                    IsCompleted = false,
+                    CreationDate = DateTime.UtcNow,
+                    ModificationDate = DateTime.UtcNow
                 },
                 new TodoEntity()
                 {
@@ -35,7 +38,10 @@ public static class TodoContextSeed
                     Title = "",
                     EndDate = DateTime.MaxValue,
                     TodoType = TodoType.Task,
-                    UserId = ""
+                    UserId = "",
+                    IsCompleted = false,
+                    CreationDate = DateTime.UtcNow,
+                    ModificationDate = DateTime.UtcNow
                 },
                 new TodoEntity()
                 {
@@ -44,7 +50,10 @@ public static class TodoContextSeed
                     Title = "",
                     EndDate = DateTime.MaxValue,
                     TodoType = TodoType.Task,
-                    UserId = ""
+                    UserId = "",
+                    IsCompleted = false,
+                    CreationDate = DateTime.UtcNow,
+                    ModificationDate = DateTime.UtcNow
                 },
                 new TodoEntity()
                 {
@@ -53,7 +62,10 @@ public static class TodoContextSeed
                     Title = "",
                     EndDate = DateTime.MaxValue,
                     TodoType = TodoType.Important,
-                    UserId = ""
+                    UserId = "",
+                    IsCompleted = false,
+                    CreationDate = DateTime.UtcNow,
+                    ModificationDate = DateTime.UtcNow
                 },
                 new TodoEntity()
                 {
@@ -62,7 +74,10 @@ public static class TodoContextSeed
                     Title = "",
                     EndDate = DateTime.MaxValue,
                     TodoType = TodoType.Important,
-                    UserId = ""
+                    UserId = "",
+                    IsCompleted = false,
+                    CreationDate = DateTime.UtcNow,
+                    ModificationDate = DateTime.UtcNow
                 },
             };
     }
