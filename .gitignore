@@ -7,3 +7,5 @@ bin
 src/Services/Todo//Todo.API/bin
 src/Services/Todo/Todo.API/obj
 src/Services/Todo/Todo.UnitTests/TestResults/
+src/Services/IdentityServer/obj
+src/Services/IdentityServer/bin
