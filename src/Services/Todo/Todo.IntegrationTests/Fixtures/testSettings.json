@@ -1,0 +1,14 @@
+{
+  "DatabaseSettings": {
+    "ConnectionString": "mongodb://testDb:27017",
+    "DatabaseName": "TodoDb",
+    "CollectionName": "Todos"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*"
+}

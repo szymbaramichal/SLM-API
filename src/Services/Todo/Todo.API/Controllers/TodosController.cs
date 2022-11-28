@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Todo.API.Dtos;
@@ -11,6 +12,7 @@ namespace Todo.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class TodosController : ControllerBase
 {
     private readonly ITodoRepository repository;
